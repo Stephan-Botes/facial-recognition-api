@@ -35,8 +35,11 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/profile/:id', auth.requireAuth, (req, res) => {
-    console.log(`got profile`);
     profile.handleProfileGet(req, res, postgresDB);
+});
+
+app.post('/profile/:id', auth.requireAuth, (req, res) => {
+    profile.handleProfileUpdate(req, res, db)
 });
 
 app.post('/imageurl', auth.requireAuth, (req, res) => {
