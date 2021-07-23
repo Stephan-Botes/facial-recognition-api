@@ -7,6 +7,7 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+const auth = require('./controllers/authorization');
 
 const postgresDB = knex({
     client: 'pg',
@@ -33,19 +34,18 @@ app.post('/register', (req, res) => {
     register.handleRegister(req, res, postgresDB, bcrypt);
 });
 
-app.get('/profile/:id', (req, res) => {
+app.get('/profile/:id', auth.requireAuth, (req, res) => {
     profile.handleProfileGet(req, res, postgresDB);
 });
 
-app.post('/imageurl', (req, res) => {
+app.post('/imageurl', auth.requireAuth, (req, res) => {
     image.handleApiCall(req, res);
 });
 
-app.put('/image', (req, res) => {
+app.put('/image', auth.requireAuth, (req, res) => {
     image.handleImage(req, res, postgresDB);
 });
 
-// Server start on port 8000
 app.listen(process.env.PORT || 8000, () => {
     console.log(`Server is running on port ${process.env.PORT}`);
 });
