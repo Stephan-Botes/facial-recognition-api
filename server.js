@@ -25,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('The facial-recognition-api is running.')
+    res.send('The facial-recognition-api is running.');
 });
 
 app.post('/signin', signin.signinAuthentication(postgresDB, bcrypt))

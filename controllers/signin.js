@@ -6,7 +6,7 @@ const redisClient = redis.createClient(process.env.REDIS_URL);
 const signToken = (username) => {
     const jwtPayload = {username};
     return jwt.sign(jwtPayload, process.env.SECRET_KEY, {expiresIn: '1h'});
-};
+}
 
 const setToken = (key, value) => Promise.resolve(redisClient.set(key, value));
 
@@ -18,12 +18,12 @@ const createSession = (user) => {
             return {success: 'true', userId: id, token, user}
         })
         .catch(console.log);
-};
+}
 
 const handleSignin = (db, bcrypt, req, res) => {
     const {email, password} = req.body;
     if (!email || !password) {
-        return Promise.reject('incorrect form submission');
+        return Promise.reject('Incorrect login details.');
     }
     return db.select('email', 'hash').from('login')
         .where('email', '=', email)
@@ -33,9 +33,9 @@ const handleSignin = (db, bcrypt, req, res) => {
                 return db.select('*').from('users')
                     .where('email', '=', email)
                     .then(user => user[0])
-                    .catch(err => res.status(400).json('unable to get user'))
+                    .catch(err => res.status(400).json('Unable to retrieve user.'));
             } else {
-                return Promise.reject('wrong credentials');
+                return Promise.reject('Wrong credentials.');
             }
         })
         .catch(err => err)
@@ -45,8 +45,8 @@ const getAuthTokenId = (req, res) => {
     const {authorization} = req.headers;
     return redisClient.get(authorization, (err, reply) => {
         if (err || !reply)
-            return res.status(401).send('Unauthorized');
-        return res.json({id: reply})
+            return res.status(401).send('Unauthorized.');
+        return res.json({id: reply});
     });
 }
 
@@ -60,7 +60,4 @@ const signinAuthentication = (db, bcrypt) => (req, res) => {
             .catch(err => res.status(400).json(err));
 }
 
-module.exports = {
-    signinAuthentication: signinAuthentication,
-    redisClient: redisClient
-}
+module.exports = {signinAuthentication: signinAuthentication, redisClient: redisClient}

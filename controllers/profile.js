@@ -3,11 +3,11 @@ const handleProfileGet = (req, res, db) => {
     db.select('*').from('users').where({id})
         .then(user => {
             if (user.length)
-                res.json(user[0])
+                res.json(user[0]);
             else
-                res.status(400).json('Not found')
+                res.status(400).json('Not found.');
         })
-        .catch(err => res.status(400).json('error getting user'))
+        .catch(err => res.status(400).json('Error retrieving user.'));
 }
 
 const handleProfileUpdate = (req, res, db) => {
@@ -17,16 +17,12 @@ const handleProfileUpdate = (req, res, db) => {
         .where({id})
         .update({name: name, age: age})
         .then(response => {
-            if (response) {
-                res.json("success")
-            } else {
-                res.status(400).json('Not found')
-            }
+            if (response)
+                res.json("success");
+            else
+                res.status(400).json('Not found');
         })
-        .catch(err => res.status(400).json('error updating user'))
+        .catch(err => res.status(400).json('Error updating user.'));
 }
 
-module.exports = {
-    handleProfileGet,
-    handleProfileUpdate
-}
+module.exports = {handleProfileGet, handleProfileUpdate}
