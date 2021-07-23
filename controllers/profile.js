@@ -15,9 +15,9 @@ const handleProfileUpdate = (req, res, db) => {
     const {name, age} = req.body.formInput
     db('users')
         .where({id})
-        .update({name: name})
-        .then(resp => {
-            if (resp) {
+        .update({name: name, age: age})
+        .then(response => {
+            if (response) {
                 res.json("success")
             } else {
                 res.status(400).json('Not found')

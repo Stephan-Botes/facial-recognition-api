@@ -39,7 +39,7 @@ app.get('/profile/:id', auth.requireAuth, (req, res) => {
 });
 
 app.post('/profile/:id', auth.requireAuth, (req, res) => {
-    profile.handleProfileUpdate(req, res, db)
+    profile.handleProfileUpdate(req, res, postgresDB);
 });
 
 app.post('/imageurl', auth.requireAuth, (req, res) => {
