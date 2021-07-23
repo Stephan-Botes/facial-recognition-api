@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
     res.send('The facial-recognition-api is running.')
 });
 
-app.post('/signin', signin.handleSignin(postgresDB, bcrypt))
+app.post('/signin', signin.signinAuthentication(postgresDB, bcrypt))
 
 app.post('/register', (req, res) => {
     register.handleRegister(req, res, postgresDB, bcrypt);
